@@ -32,11 +32,43 @@ namespace ChatBackend
 
         public static void ConfigureDb(IServiceCollection services, bool resetDb = false)
         {
-            //var dbFactory = CreateSqliteConnectionFactory();
-            var dbFactory = CreatePostgresConnectionFactory();
-            
-            services.AddSingleton<IDbConnectionFactory>(dbFactory);
+            bool isHostedInDockerCompose = true;
 
+            //var dbFactory = CreateSqliteConnectionFactory();
+            var dbFactory = CreatePostgresConnectionFactory(isHostedInDockerCompose);
+            
+            var dbInitStartTime = DateTimeOffset.UtcNow;
+            var dbInitGiveUpTime = dbInitStartTime.AddMinutes(1);
+
+            while (DateTimeOffset.UtcNow < dbInitGiveUpTime)
+            {
+                try
+                {
+                    InitDb(dbFactory, resetDb);
+                    services.AddSingleton<IDbConnectionFactory>(dbFactory);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR INITIALIZING DB...");
+                    Console.WriteLine($"Using connection string >> {dbFactory.ConnectionString}");
+                    Console.WriteLine("We'll try again in a little while");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
+                }
+            }
+
+            // docker compose + postgres issues? We'll at least try a temporary in-memory DB with Sqlite
+            Console.WriteLine("Using Sqlite DB as DB of last resort");
+            var sqliteDbFactory = CreateSqliteConnectionFactory();
+            InitDb(sqliteDbFactory, false);
+            services.AddSingleton<IDbConnectionFactory>(sqliteDbFactory);
+        }
+
+        public static void InitDb(OrmLiteConnectionFactory dbFactory, bool resetDb)
+        {
             using var db = dbFactory.Open();
             if (resetDb)
             {
@@ -49,11 +81,21 @@ namespace ChatBackend
             db.CreateTableIfNotExists<DbRoomLatestActivity>();
         }
 
-        private static OrmLiteConnectionFactory CreatePostgresConnectionFactory()
+        // I know, I know... this should go in a config somewhere, at some point
+        private static string GetPostgresConnectionString(bool hostedInDockerCompose)
         {
-            // I know, I know... this should go in a config somewhere, at some point
-            var connectionString = "User ID=postgres;Password=postgrespasswd;Host=localhost;Port=15432;Database=chat_app;Pooling=true;Connection Lifetime=0;";
+            var postGresUser = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "postgres";
+            var postGresUserPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? "postgrespasswd";
+            var postGresHost = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? "postgres";
+            var port = hostedInDockerCompose ? 5432 : 15432;
 
+            var connectionString = $"User ID={postGresUser};Password={postGresUserPassword};Host={postGresHost};Port={port};Database=chat_app;Pooling=true;Connection Lifetime=0;";
+            return connectionString;
+        }
+
+        private static OrmLiteConnectionFactory CreatePostgresConnectionFactory(bool hostedInDockerCompose)
+        {
+            var connectionString = GetPostgresConnectionString(hostedInDockerCompose);
             var dbFactory = new OrmLiteConnectionFactory(connectionString, PostgreSqlDialect.Provider);
             return dbFactory;
         }

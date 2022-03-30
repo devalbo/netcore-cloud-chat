@@ -1,5 +1,5 @@
 import './chatroom.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ChatBubble } from '../chat-bubble/chat-bubble';
 import { models } from '../../models';
 import { useParams } from 'react-router-dom';
@@ -43,7 +43,7 @@ export const Chatroom: React.FunctionComponent<ChatroomProps> = () => {
         });
     };
 
-    const refreshMessages = () => {
+    const refreshMessages = useCallback(() => {
       setLoadingMessages(true);
       MessageService.getMessagesForRoom(id!)
         .then((res: Message[]) => {
@@ -53,7 +53,7 @@ export const Chatroom: React.FunctionComponent<ChatroomProps> = () => {
         .finally(() => {
           setLoadingMessages(false);
         });
-    }
+    }, [id]);
 
     useEffect(() => {
         if (loadedMessagesRoomId !== id) {
