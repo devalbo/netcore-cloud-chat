@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E1C7ABA-885A-4273-811E-B66AD28F9A87}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBackend", "ChatBackend\ChatBackend.csproj", "{88B4DC2E-F78E-4DE0-85BD-C6287885DAD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88B4DC2E-F78E-4DE0-85BD-C6287885DAD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B4DC2E-F78E-4DE0-85BD-C6287885DAD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B4DC2E-F78E-4DE0-85BD-C6287885DAD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B4DC2E-F78E-4DE0-85BD-C6287885DAD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9A7C5A2-5C90-4AD9-ABB8-6F2D2364D5AF}
+	EndGlobalSection
+EndGlobal

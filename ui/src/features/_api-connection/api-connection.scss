@@ -1,0 +1,14 @@
+.api-connection {
+    border-top: 1px solid black;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background: #eeeeee;
+    font-size: 15px;
+
+    h3 {
+        font-size: 18px;
+    }
+}
