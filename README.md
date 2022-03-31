@@ -1,22 +1,24 @@
-# .Net chat app sample
+# .Net app starter
 
-This is a complete single page React/Redux application with a .NET ASP server backend written in C# with the option for a sqlite or Postgres database.
+This is a complete single page React/Redux chat application with a .NET ASP server backend written in C# (ASP .NET) with the out of the box ability to configure a sqlite or Postgres database using the OrmLite library(more options are available without much effort).
+
+It's suitable to use as a template/starting point if you want to write a C# server with a Typescript/React/Redux frontend and database for persistence. It should help you get your ideas on the screen quickly to see if they have any legs.
+
+Next steps are:
+* integrate some units tests for `ChatBackend` with xUnit, NSubstitute/AutoFixture, FluentAssertions
+* add better support for loading settings from configurations rather than inline using `Microsoft.Extensions.Configuration` and `Microsoft.Extensions.Options` extensions
+* clean up patterns in `ui` project, then add unit tests
+
+Nexter steps are:
+* shared type definitions between backend and frontend a la Protocol Buffers or Twirp
+* more integration tests to support "business logic" type workflows continue to work even in the face of radical implementation/architecture changes
+
 
 ## Getting Started
 
 ### Prerequisites
 
 - Make sure to have [docker](https://docs.docker.com/get-docker/) installed beforehand
-
-### Running the API locally
-You can run the API app on your local machine using `dotnet run` or running directly from Visual Studio. Default hosting URLs are http://localhost:5298 and https://localhost:7298 .
-
-You can interact with the service APIs directly via the Swagger page at https://localhost:7298/swagger/index.html .
-
-There are two database options which can be set up to your development circumstances in the method `ConfigureDb` in the file `BackendServices.cs`.
-
-### Running the UI locally
-Run `npm install` to install all dependencies, then run `npm run start` to start the development server.
 
 
 ### Running apps in docker compose
@@ -47,3 +49,17 @@ In the header there is a `ping/pong` recurring event as a check that the communi
 docker-compose down -v
 ```
 Note: the `-v` is important because of the named volume defined for the UI project.
+
+
+## Developer Setup
+
+### Running the API locally
+You can run the API app on your local machine using `dotnet run` or running directly from Visual Studio. Default hosting URLs are http://localhost:5298 and https://localhost:7298 .
+
+You can interact with the service APIs directly via the Swagger page at https://localhost:7298/swagger/index.html .
+
+There are two database options which can be set up to your development circumstances in the method `ConfigureDb` in the file `BackendServices.cs`.
+
+
+### Running the UI locally
+Run `npm install` to install all dependencies, then run `npm run start` to start the development server.
