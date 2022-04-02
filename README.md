@@ -1,4 +1,4 @@
-# .Net app starter
+# .Net Single Page App starter
 
 This is a complete single page React/Redux chat application with a .NET ASP server backend written in C# (ASP .NET) with the out of the box ability to configure a sqlite or Postgres database using the OrmLite library(more options are available without much effort).
 
