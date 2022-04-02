@@ -1,15 +1,15 @@
 # .Net Single Page App starter
 
-This is a complete single page React/Redux chat application with a .NET ASP server backend written in C# (ASP .NET) with the out of the box ability to configure a sqlite or Postgres database using the OrmLite library(more options are available without much effort).
+This is a complete single page React/Redux chat application with a .NET ASP server backend written in C# (ASP .NET) with the out of the box ability to configure a sqlite or Postgres database using the OrmLite library (more options are available without much effort, one of the reasons I love ORMs).
 
-It's suitable to use as a template/starting point if you want to write a C# server with a Typescript/React/Redux frontend and database for persistence. It should help you get your ideas on the screen quickly to see if they have any legs.
+It's suitable to use as a template/starting point if you want to write a C# server with a Typescript/React/Redux frontend and database for persistence using `docker compose`. It helps me get my ideas on the screen quickly to see if they have any legs.
 
-Next steps are:
+Next improvements are:
 * integrate some units tests for `ChatBackend` with xUnit, NSubstitute/AutoFixture, FluentAssertions
 * add better support for loading settings from configurations rather than inline using `Microsoft.Extensions.Configuration` and `Microsoft.Extensions.Options` extensions
 * clean up patterns in `ui` project, then add unit tests
 
-Nexter steps are:
+Nexter improvements are:
 * shared type definitions between backend and frontend a la Protocol Buffers or Twirp
 * more integration tests to support "business logic" type workflows continue to work even in the face of radical implementation/architecture changes
 
@@ -63,3 +63,7 @@ There are two database options which can be set up to your development circumsta
 
 ### Running the UI locally
 Run `npm install` to install all dependencies, then run `npm run start` to start the development server.
+
+
+### Integration Tests
+You will see that there is a Python project `chat-integration-tests`. This is a start to automating and/or checking on a lot of the "stuff" that should happen for a quality environment to test in (this is subjective; regardless, it's a good way to start discussions about what is important and worth testing at what stage). With HTTP/REST, this steps can be simple to observe and explain, which is why I like to set these up when I can.
